@@ -85,4 +85,58 @@ public class ArvoreBinariaLinked<Chave extends Comparable<Chave>, Valor> impleme
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    public void percursoPreOrdem(No<Chave, Valor> no) {
+        
+        if (no == null) {
+            return;
+        }
+        
+        System.out.println("Valor: " + no.getValor());
+        
+        if (no.getFilhoEsquerdo() != null) {
+            this.percursoPreOrdem(no.getFilhoEsquerdo());
+        }
+        
+        if (no.getFilhoDireito() != null) {
+            this.percursoPreOrdem(no.getFilhoDireito());
+        }
+        
+    }
+    
+    public void percursoPosOrdem(No<Chave, Valor> no) {
+        
+        if (no == null) {
+            return;
+        }
+        
+        if (no.getFilhoEsquerdo() != null) {
+            this.percursoPosOrdem(no.getFilhoEsquerdo());
+        }
+        
+        if (no.getFilhoDireito() != null) {
+            this.percursoPosOrdem(no.getFilhoDireito());
+        }
+        
+        System.out.println("Valor: " + no.getValor());
+        
+    }
+    
+    public void percursoEmOrdem(No<Chave, Valor> no) {
+        
+        if (no == null) {
+            return;
+        }
+        
+        if (no.getFilhoEsquerdo() != null) {
+           this.percursoEmOrdem(no.getFilhoEsquerdo());
+        }
+        
+        System.out.println("Valor: " + no.getValor());
+        
+        if (no.getFilhoDireito() != null) {
+            this.percursoEmOrdem(no.getFilhoDireito());
+        }
+        
+   }
+    
 }
