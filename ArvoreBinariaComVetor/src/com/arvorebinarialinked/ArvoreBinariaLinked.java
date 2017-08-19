@@ -48,7 +48,16 @@ public class ArvoreBinariaLinked<Chave extends Comparable<Chave>, Valor> impleme
 
     @Override
     public No obterFilho(No pai, Lado lado) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        if (lado == Lado.ESQUERDO) {
+            return pai.getFilhoEsquerdo();
+        }
+        
+        if (lado == Lado.DIREITO) {
+            return pai.getFilhoDireito();
+        }
+        
+        return null;
     }
 
     @Override
@@ -75,6 +84,5 @@ public class ArvoreBinariaLinked<Chave extends Comparable<Chave>, Valor> impleme
     public Collection obterValores() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
     
 }
