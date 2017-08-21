@@ -88,17 +88,64 @@ public class ArvoreBinariaLinked<Chave extends Comparable<Chave>, Valor> impleme
 
     @Override
     public No remover(No no) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        No<Chave, Valor> noAux;
+        
+        if (no.getFilhoEsquerdo() == null && no.getFilhoDireito() != null) {
+            
+            no.getFilhoDireito().setPai(no.getPai());
+            if (this.ladoDoFilho(no) == Lado.ESQUERDO) {
+                no.getPai().setFilhoEsquerdo(no.getFilhoDireito());
+            } else {
+                no.getPai().setFilhoDireito(no.getFilhoDireito());
+            }
+            
+            return no;
+            
+        } else if (no.getFilhoEsquerdo() != null && no.getFilhoDireito() == null) {
+            
+            no.getFilhoEsquerdo().setPai(no.getPai());
+            if (this.ladoDoFilho(no) == Lado.ESQUERDO) {
+                no.getPai().setFilhoEsquerdo(no.getFilhoEsquerdo());
+            } else {
+                no.getPai().setFilhoDireito(no.getFilhoEsquerdo());
+            }
+            
+            return no;
+            
+        } else {
+            return null;
+        }
+        
+    }
+    
+    private Lado ladoDoFilho(No<Chave, Valor> noFilho) {
+        if (noFilho.getPai().getFilhoEsquerdo().equals(noFilho)) {
+            return Lado.ESQUERDO;
+        } else {
+            return Lado.DIREITO;
+        }
     }
 
     @Override
     public No remover(No pai, Lado lado) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (lado == Lado.ESQUERDO) {
+            return this.remover(pai.getFilhoEsquerdo());
+        } else {
+            return this.remover(pai.getFilhoDireito());
+        }
     }
 
     @Override
     public No remover(Comparable chave) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        for (Object no : this.obterValores()) {
+            if (((No<Chave, Valor>) no).getChave().equals(chave)) {
+                return this.remover(((No<Chave, Valor>) no));
+            }
+        }
+        
+        return null;
     }
 
     @Override
