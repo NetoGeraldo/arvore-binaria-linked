@@ -1,5 +1,6 @@
 package com.arvorebinarialinked;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -82,7 +83,31 @@ public class ArvoreBinariaLinked<Chave extends Comparable<Chave>, Valor> impleme
 
     @Override
     public Collection obterValores() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        ArrayList<Valor> lista = new ArrayList<>();
+        
+        this.listarPercurso(this.raiz, lista);
+        
+        return lista;
+        
+    }
+    
+    private void listarPercurso(No<Chave, Valor> no, Collection collection) {
+        
+        if (no == null) {
+            return;
+        }
+        
+        collection.add(no);
+        
+        if (no.getFilhoEsquerdo() != null) {
+            listarPercurso(no.getFilhoEsquerdo(), collection);
+        }
+        
+        if (no.getFilhoDireito() != null) {
+            listarPercurso(no.getFilhoDireito(), collection);
+        }
+        
     }
     
     public void percursoPreOrdem(No<Chave, Valor> no) {
