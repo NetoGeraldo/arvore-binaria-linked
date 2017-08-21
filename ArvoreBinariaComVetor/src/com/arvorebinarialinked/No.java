@@ -20,6 +20,13 @@ public class No<Chave extends Comparable<Chave>, Valor> {
         this.valor = valor;
     }
 
+    @Override
+    public String toString() {
+        return this.valor.toString();
+    }
+    
+    
+
     public Chave getChave() {
         return chave;
     }

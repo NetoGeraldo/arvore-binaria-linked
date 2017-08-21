@@ -19,24 +19,24 @@ public class ArvoreBinariaLinked<Chave extends Comparable<Chave>, Valor> impleme
     public No inserir(Comparable chave, Object valor, No pai, Lado lado) {
         
         No<Chave, Valor> novoNo = new No(chave, valor);
-        No<Chave, Valor> aux = this.raiz;
         
         if (this.raiz == null) {
             this.raiz = novoNo;
             return novoNo;
         } else {
             
-            aux.setPai(pai);
+            novoNo.setPai(pai);
+            
             if (lado == Lado.ESQUERDO) {
-                if (aux.getFilhoEsquerdo() == null) {
-                    aux.setFilhoEsquerdo(novoNo);
+                if (pai.getFilhoEsquerdo() == null) {
+                    pai.setFilhoEsquerdo(novoNo);
                     return novoNo;
                 }
             }
             
             if (lado == Lado.DIREITO) {
-                if (aux.getFilhoDireito() == null) {
-                    aux.setFilhoDireito(novoNo);
+                if (pai.getFilhoDireito() == null) {
+                    pai.setFilhoDireito(novoNo);
                     return novoNo;
                 }
             }
@@ -66,7 +66,7 @@ public class ArvoreBinariaLinked<Chave extends Comparable<Chave>, Valor> impleme
         No<Chave,Valor> noPai = null;
         
         for (Object no : this.obterValores()) {
-            if (( (No<Chave, Valor>) no ).getChave().equals(no)) {
+            if (( (No<Chave, Valor>) no ).getChave().equals(chave)) {
                 noPai = (No<Chave, Valor>) no;
                 break;
             }
@@ -89,9 +89,21 @@ public class ArvoreBinariaLinked<Chave extends Comparable<Chave>, Valor> impleme
     @Override
     public No remover(No no) {
         
-        No<Chave, Valor> noAux;
+        if (no.getFilhoDireito() == null && no.getFilhoEsquerdo() == null) {
+            if (this.ladoDoFilho(no) == Lado.ESQUERDO) {
+                no.getPai().setFilhoEsquerdo(null);
+                no.setPai(null);
+                
+                return no;
+            } else {
+                no.getPai().setFilhoDireito(null);
+                no.setPai(null);
+                
+                return no;
+            }
+        }
         
-        if (no.getFilhoEsquerdo() == null && no.getFilhoDireito() != null) {
+        if (no.getFilhoEsquerdo() == null) {
             
             no.getFilhoDireito().setPai(no.getPai());
             if (this.ladoDoFilho(no) == Lado.ESQUERDO) {
@@ -102,7 +114,7 @@ public class ArvoreBinariaLinked<Chave extends Comparable<Chave>, Valor> impleme
             
             return no;
             
-        } else if (no.getFilhoEsquerdo() != null && no.getFilhoDireito() == null) {
+        } else if (no.getFilhoDireito() == null) {
             
             no.getFilhoEsquerdo().setPai(no.getPai());
             if (this.ladoDoFilho(no) == Lado.ESQUERDO) {
@@ -117,14 +129,6 @@ public class ArvoreBinariaLinked<Chave extends Comparable<Chave>, Valor> impleme
             return null;
         }
         
-    }
-    
-    private Lado ladoDoFilho(No<Chave, Valor> noFilho) {
-        if (noFilho.getPai().getFilhoEsquerdo().equals(noFilho)) {
-            return Lado.ESQUERDO;
-        } else {
-            return Lado.DIREITO;
-        }
     }
 
     @Override
@@ -156,24 +160,6 @@ public class ArvoreBinariaLinked<Chave extends Comparable<Chave>, Valor> impleme
         this.listarPercurso(this.raiz, lista);
         
         return lista;
-        
-    }
-    
-    private void listarPercurso(No<Chave, Valor> no, Collection collection) {
-        
-        if (no == null) {
-            return;
-        }
-        
-        collection.add(no);
-        
-        if (no.getFilhoEsquerdo() != null) {
-            listarPercurso(no.getFilhoEsquerdo(), collection);
-        }
-        
-        if (no.getFilhoDireito() != null) {
-            listarPercurso(no.getFilhoDireito(), collection);
-        }
         
     }
     
@@ -230,5 +216,36 @@ public class ArvoreBinariaLinked<Chave extends Comparable<Chave>, Valor> impleme
         }
         
    }
+        
+    private Lado ladoDoFilho(No<Chave, Valor> noFilho) {
+        if (noFilho.getPai().getFilhoEsquerdo() != null && 
+                noFilho.getPai().getFilhoEsquerdo().equals(noFilho)) {
+            return Lado.ESQUERDO;
+        } else {
+            return Lado.DIREITO;
+        }
+    }
+    
+    private void listarPercurso(No<Chave, Valor> no, Collection collection) {
+        
+        if (no == null) {
+            return;
+        }
+        
+        collection.add(no);
+        
+        if (no.getFilhoEsquerdo() != null) {
+            listarPercurso(no.getFilhoEsquerdo(), collection);
+        }
+        
+        if (no.getFilhoDireito() != null) {
+            listarPercurso(no.getFilhoDireito(), collection);
+        }
+        
+    }
+    
+    public No<Chave, Valor> getRaiz() {
+        return raiz;
+    }
     
 }
