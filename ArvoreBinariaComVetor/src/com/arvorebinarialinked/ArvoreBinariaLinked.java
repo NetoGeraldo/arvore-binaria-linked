@@ -7,7 +7,7 @@ import java.util.Collection;
  *
  * @author 1161113875
  */
-public class ArvoreBinariaLinked<Chave extends Comparable<Chave>, Valor> implements IArvoreBinariaLinked {
+public class ArvoreBinariaLinked<Chave extends Comparable<Chave>, Valor> implements IArvoreBinariaLinked<Chave, Valor> {
     
     private No<Chave, Valor> raiz;
     
